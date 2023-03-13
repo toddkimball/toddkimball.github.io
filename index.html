@@ -1,25 +1,107 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Katherine Folding</title>
+    <title>Exp. Growth</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- Bulma Version 0.9.0-->
+    <style>
+      #paperbox {
+        height: 800px;
+        width: 800px;
+      }
+      #paper {
+        background-color: bisque;
+        height: 800px;
+        width: 800px;
+      }
+    </style>
 </head>
 
 <body>
-    <div
-        class="paper"
-    >
-        <img src="https://spaceholder.cc/i/800/600">
-    </div>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/oridomi@1.1.2/oridomi.min.js"></script>
-    <script>
-        var folded = new OriDomi(document.getElementsByClassName('paper')[0], {
-            vPanels: 2,
-            hPanels: 2,
-        });
+    <div class="hero">
+      <div class="container">
+        <h1 class="title">
+            Exponential Folding
+        </h1>
+        <div
+          id="paperbox"
+          style="float: left;"
+        >
+          <div
+            id="paper"
+          >
+          </div>
+        </div>
+        <div
+          style="float: right;"
+        >
+          <pre id="stats">
+            Folds: 0
+            Height: 0.000001kM
+          </pre>
+          <button onclick="resize()">Fold it</button>          
+        </div>
+      </div>
+      </div>
+    
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+      let theDiv = $("#paper");
+      let foldCount = 1;
+      
+      function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+      }
+
+      async function resize () {
+        let stats = '';
+        let ratioW = .5;
+        let ratioH = .5;
+        let paperHeight = Math.pow(2, foldCount); // half a mill
+
+        if (foldCount % 10 === 0) {
+          theDiv.animate({
+            width: 800,
+            height: 800
+          }, 100);
+        }
+
+        await delay(250);
+
+        let currentWid = theDiv.width();
+        let currentHei = theDiv.height();
+
+        if (foldCount % 2 === 0) {
+          theDiv.animate({
+            width: currentWid/2
+          }, 250);
+        } else {
+          theDiv.animate({
+            height: currentHei/2
+          }, 250);
+        }
+
+        stats += "Folds: " + foldCount + "\n";
+        
+        foldCount++;
+
+        // $("#stats").html(paperHeight)
+        
+        stats += "Height: " + paperHeight/1000000 + "kM";
+
+        $("#stats").text(stats)
+
+
+      }
     </script>
 </body>
 
